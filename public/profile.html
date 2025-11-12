@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Profile — Student Course App</title>
+  <link rel="stylesheet" href="/css/style.css" />
+</head>
+<body class="dashboard-layout">
+  <aside class="sidebar">
+    <div class="logo">StudentApp</div>
+    <nav>
+      <a href="/dashboard.html">Dashboard</a>
+      <a href="/mycourses.html">My Courses</a>
+      <a href="/profile.html" class="active">My Profile</a>
+    </nav>
+    <div style="margin-top:auto">
+      <button id="logoutBtn" class="icon-btn" style="width:100%;">Logout</button>
+    </div>
+  </aside>
+
+  <div class="content">
+    <header class="header">
+      <div class="title">My Profile</div>
+    </header>
+
+    <div class="panel">
+      <h3>Profile</h3>
+      <p><strong>Name:</strong> <span id="profileName">Loading...</span></p>
+      <p><strong>Email:</strong> <span id="profileEmail">Loading...</span></p>
+      <p><strong>Contact:</strong> <span id="profileContact">Loading...</span></p>
+    </div>
+  </div>
+
+  <script src="/js/script.js"></script>
+</body>
+</html>

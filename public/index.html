@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Register — Student Course App</title>
+  <link rel="stylesheet" href="/css/style.css" />
+</head>
+<body class="page">
+  <main class="form-wrapper panel">
+    <h1 style="margin-bottom:10px">Create your account</h1>
+
+    <form id="registerForm" novalidate>
+      <label for="fullName">Full name</label>
+      <input id="fullName" name="fullName" type="text" placeholder="John Doe" required />
+      <small id="nameHint" class="hint"></small>
+
+      <label for="email">Email</label>
+      <input id="email" name="email" type="email" placeholder="you@example.com" required />
+      <small id="emailHint" class="hint"></small>
+
+      <label for="contact">Contact (optional)</label>
+      <input id="contact" name="contact" type="tel" placeholder="+91 98765 43210" />
+
+      <label for="password">Password</label>
+      <input id="password" name="password" type="password" placeholder="Strong password" required />
+      <small id="pwdHint" class="hint">Min 8 chars with upper, lower, number and special</small>
+
+      <label for="confirmPassword">Confirm password</label>
+      <input id="confirmPassword" name="confirmPassword" type="password" placeholder="Confirm password" required />
+      <small id="confirmHint" class="hint"></small>
+
+      <div style="display:flex;gap:12px;margin-top:12px">
+        <button id="registerBtn" class="primary" type="submit">Register</button>
+        <button type="button" id="pwdToggle" class="icon-btn">Show pwd</button>
+      </div>
+
+      <p style="margin-top:12px">Already have an account? <a href="/login.html">Login here</a></p>
+      <div id="formMessage" class="form-message" aria-live="polite"></div>
+    </form>
+  </main>
+
+  <script src="/js/script.js"></script>
+</body>
+</html>

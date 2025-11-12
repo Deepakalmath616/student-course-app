@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Login — Student Course App</title>
+  <link rel="stylesheet" href="/css/style.css" />
+</head>
+<body class="page">
+  <main class="form-wrapper panel">
+    <h1 style="margin-bottom:10px">Welcome back</h1>
+
+    <form id="loginForm" novalidate>
+      <label for="loginEmail">Email</label>
+      <input id="loginEmail" name="loginEmail" type="email" placeholder="you@example.com" required />
+      <small id="loginEmailHint" class="hint"></small>
+
+      <label for="loginPassword">Password</label>
+      <input id="loginPassword" name="loginPassword" type="password" placeholder="Your password" required />
+      <small id="loginPasswordHint" class="hint"></small>
+
+      <div style="display:flex;gap:12px;margin-top:12px">
+        <button id="loginBtn" class="primary" type="submit">Login</button>
+        <button type="button" id="loginPwdToggle" class="icon-btn">Show pwd</button>
+      </div>
+
+      <p style="margin-top:12px">New here? <a href="/index.html">Create an account</a></p>
+      <div id="formMessage" class="form-message" aria-live="polite"></div>
+    </form>
+  </main>
+
+  <script src="/js/script.js"></script>
+</body>
+</html>
