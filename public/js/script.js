@@ -3,7 +3,9 @@
    API prefix: /api
 */
 
-const API_PREFIX = '/api';
+const API_BASE = "https://student-course-app-rkkj.onrender.com";
+const API_PREFIX = `${API_BASE}/api`;
+
 const $ = (id) => document.getElementById(id);
 const setFormMessage = (msg, type='') => {
   const el = $('formMessage');
@@ -148,34 +150,55 @@ function escapeHtml(s) {
 
 // ---------------------- DASHBOARD / COURSES / PROFILE ----------------------
 (async function attachCommon() {
-  // logout handler (multiple pages)
-  document.querySelectorAll('#logoutBtn').forEach(btn => btn.addEventListener('click', () => { clearAuth(); window.location.href = '/login.html'; }));
 
-  // Dashboard page load
+  // logout handler
+  document.querySelectorAll('#logoutBtn').forEach(btn =>
+    btn.addEventListener('click', () => {
+      clearAuth();
+      window.location.href = '/login.html';
+    })
+  );
+
+  // Dashboard page
   if (location.pathname.endsWith('/dashboard.html')) {
     if (!ensureAuthRedirect()) return;
+
     try {
-      const profileRes = await fetch(`${API_PREFIX}/auth/profile`, { headers: { Authorization: `Bearer ${getToken()}` }});
+      const profileRes = await fetch(`${API_PREFIX}/auth/profile`, {
+        headers: { Authorization: `Bearer ${getToken()}` }
+      });
       const profile = profileRes.ok ? await profileRes.json() : null;
+
       $('userGreeting').textContent = profile ? `Hello, ${profile.fullName}` : '';
 
+      // GET all courses
       const allRes = await fetch(`${API_PREFIX}/courses`);
       const allCourses = allRes.ok ? await allRes.json() : [];
       $('totalCourses').textContent = allCourses.length;
 
-      const myRes = await fetch(`${API_PREFIX}/courses/mycourses`, { headers: { Authorization: `Bearer ${getToken()}` }});
+      // GET user's my-courses
+      const myRes = await fetch(`${API_PREFIX}/courses/mycourses`, {
+        headers: { Authorization: `Bearer ${getToken()}` }
+      });
       const myCourses = myRes.ok ? await myRes.json() : [];
       $('courseCount').textContent = myCourses.length;
 
+      // Recent courses
       const recent = $('recentCourses');
-      if (!recent) {}
-      if (myCourses.length === 0) {
-        if (recent) recent.innerHTML = '<p>No recent registrations.</p>';
-      } else {
-        if (recent) recent.innerHTML = myCourses.slice(-3).map(c => `<div class="course-card"><h3>${escapeHtml(c.title)}</h3><p>${escapeHtml(c.description)}</p></div>`).join('');
+      if (recent) {
+        if (myCourses.length === 0) {
+          recent.innerHTML = '<p>No recent registrations.</p>';
+        } else {
+          recent.innerHTML = myCourses.slice(-3).map(c => `
+            <div class="course-card">
+              <h3>${escapeHtml(c.title)}</h3>
+              <p>${escapeHtml(c.description)}</p>
+            </div>
+          `).join('');
+        }
       }
 
-      // load all courses into the "courses" container
+      // Render all courses
       const coursesContainer = $('courses');
       if (coursesContainer) {
         coursesContainer.innerHTML = allCourses.map(c => `
@@ -194,25 +217,46 @@ function escapeHtml(s) {
     }
   }
 
-  // My Courses page load
+  // My Courses page
   if (location.pathname.endsWith('/mycourses.html')) {
     if (!ensureAuthRedirect()) return;
+
     const cont = $('myCoursesGrid');
-    if (!cont) return;
-    try {
-      const res = await fetch(`${API_PREFIX}/courses/mycourses`, { headers: { Authorization: `Bearer ${getToken()}` }});
-      const arr = res.ok ? await res.json() : [];
-      if (!arr.length) { cont.innerHTML = '<p>You have not registered for any courses yet.</p>'; return; }
-      cont.innerHTML = arr.map(c => `<div class="course-card"><h3>${escapeHtml(c.title)}</h3><p>${escapeHtml(c.description)}</p><p><strong>Instructor:</strong> ${escapeHtml(c.instructor)}</p></div>`).join('');
-    } catch (err) { console.error('mycourses err', err); cont.innerHTML = '<p>Error loading</p>'; }
+    if (cont) {
+      try {
+        const res = await fetch(`${API_PREFIX}/courses/mycourses`, {
+          headers: { Authorization: `Bearer ${getToken()}` }
+        });
+        const arr = res.ok ? await res.json() : [];
+
+        if (!arr.length) {
+          cont.innerHTML = '<p>You have not registered for any courses yet.</p>';
+        } else {
+          cont.innerHTML = arr.map(c => `
+            <div class="course-card">
+              <h3>${escapeHtml(c.title)}</h3>
+              <p>${escapeHtml(c.description)}</p>
+              <p><strong>Instructor:</strong> ${escapeHtml(c.instructor)}</p>
+            </div>
+          `).join('');
+        }
+      } catch (err) {
+        console.error('mycourses err', err);
+        cont.innerHTML = '<p>Error loading</p>';
+      }
+    }
   }
 
-  // Profile page load
+  // Profile page
   if (location.pathname.endsWith('/profile.html')) {
     if (!ensureAuthRedirect()) return;
+
     try {
-      const res = await fetch(`${API_PREFIX}/auth/profile`, { headers: { Authorization: `Bearer ${getToken()}` }});
+      const res = await fetch(`${API_PREFIX}/auth/profile`, {
+        headers: { Authorization: `Bearer ${getToken()}` }
+      });
       const profile = res.ok ? await res.json() : null;
+
       if (profile) {
         $('profileName').textContent = profile.fullName;
         $('profileEmail').textContent = profile.email;
@@ -224,6 +268,7 @@ function escapeHtml(s) {
   }
 
 })();
+
 
 // globally available function to register course
 async function registerCourse(courseId) {
