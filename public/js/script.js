@@ -3,8 +3,8 @@
    API prefix: /api
 */
 
-const API_BASE = "https://student-course-app-rkkj.onrender.com";
-const API_PREFIX = `${API_BASE}/api`;
+const API_PREFIX = "https://student-course-app-rkkj.onrender.com/api";
+
 
 const $ = (id) => document.getElementById(id);
 const setFormMessage = (msg, type='') => {
